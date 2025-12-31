@@ -1,0 +1,5 @@
+{
+  "name": "TAI | Sandbox",
+  "description": "A sandbox application featuring dynamic forms, hash routing, and a responsive Material Design inspired UI built with Angular and Tailwind CSS.",
+  "requestFramePermissions": []
+}
