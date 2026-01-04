@@ -19,7 +19,7 @@ import { ActivatedRoute } from '@angular/router';
           
           <!-- Success Overlay -->
           @if (isSuccess()) {
-            <div class="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+            <div id="form-success" class="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center p-6 text-center animate-fade-in">
               <div class="h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                 <svg class="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -124,12 +124,11 @@ import { ActivatedRoute } from '@angular/router';
 export class FormSalesPageComponent {
   route = inject(ActivatedRoute);
   fb = inject(FormBuilder);
-  
   // Title will be populated from route data via component inputs or manual route data access
   pageTitle = 'Form';
   
   isSubmitting = signal(false);
-  isSuccess = signal(false);
+  isSuccess = signal(false); 
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -158,6 +157,9 @@ export class FormSalesPageComponent {
       // Simulate Async API call
       setTimeout(() => {
         console.log('Form Submitted', this.form.value);
+        console.log(window.location.hash);
+        (window as any).sales_form.enhanced_conversion_data.email = this.form.value.email;
+        (window as any).sales_form.enhanced_conversion_data.phone = this.form.value.phone;       
         this.isSubmitting.set(false);
         this.isSuccess.set(true);
       }, 1500);

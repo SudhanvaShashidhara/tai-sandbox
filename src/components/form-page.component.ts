@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy, input, signal, inject, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-form-feedback-page',
+  selector: 'app-form-page',
   imports: [ReactiveFormsModule],
   template: `
     <div class="min-h-[calc(100vh-64px-300px)] py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
@@ -19,7 +19,7 @@ import { ActivatedRoute } from '@angular/router';
           
           <!-- Success Overlay -->
           @if (isSuccess()) {
-            <div id="form-success" class="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+            <div class="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center p-6 text-center animate-fade-in">
               <div class="h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                 <svg class="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -121,17 +121,14 @@ import { ActivatedRoute } from '@angular/router';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormFeedbackPageComponent {
+export class FormPageComponent {
   route = inject(ActivatedRoute);
   fb = inject(FormBuilder);
   
-  // Title will be populated from route data via component inputs or manual route data access
   pageTitle = 'Form';
   
   isSubmitting = signal(false);
   isSuccess = signal(false);
-  email = signal("");
-  phone = signal("");  
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -141,7 +138,6 @@ export class FormFeedbackPageComponent {
   });
 
   constructor() {
-    // Listen to route data changes to update title
     this.route.data.subscribe(data => {
       this.pageTitle = data['title'] || 'Form';
       this.resetFormState();
@@ -160,9 +156,6 @@ export class FormFeedbackPageComponent {
       // Simulate Async API call
       setTimeout(() => {
         console.log('Form Submitted', this.form.value);
-        console.log(window.location.hash);
-        this.email.set(this.form.value.email);
-        this.phone.set(this.form.value.phone);
         this.isSubmitting.set(false);
         this.isSuccess.set(true);
       }, 1500);

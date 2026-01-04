@@ -19,7 +19,7 @@ import { ActivatedRoute } from '@angular/router';
           
           <!-- Success Overlay -->
           @if (isSuccess()) {
-            <div class="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+            <div id="form-success" class="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center p-6 text-center animate-fade-in">
               <div class="h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                 <svg class="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -27,6 +27,8 @@ import { ActivatedRoute } from '@angular/router';
               </div>
               <h3 class="text-2xl font-bold text-gray-900 mb-2">Submission Successful!</h3>
               <p class="text-gray-500 mb-6">Thank you for contacting us. We have received your {{ pageTitle.toLowerCase() }} information.</p>
+              <span class="hidden success-email"> {{ email() }} </span>
+              <span class="hidden" id="success-phone" class="hidden"> {{ phone() }} </span>
               <button (click)="resetForm()" class="text-indigo-600 hover:text-indigo-800 font-medium hover:underline">
                 Send another message
               </button>
@@ -130,6 +132,8 @@ export class FormGeneralPageComponent {
   
   isSubmitting = signal(false);
   isSuccess = signal(false);
+  email = signal("");
+  phone = signal("");
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -158,6 +162,9 @@ export class FormGeneralPageComponent {
       // Simulate Async API call
       setTimeout(() => {
         console.log('Form Submitted', this.form.value);
+        console.log(window.location.hash);
+        this.email.set(this.form.value.email);
+        this.phone.set(this.form.value.phone);
         this.isSubmitting.set(false);
         this.isSuccess.set(true);
       }, 1500);
@@ -174,5 +181,7 @@ export class FormGeneralPageComponent {
   private resetFormState() {
     this.isSuccess.set(false);
     this.isSubmitting.set(false);
+    this.email.set("");
+    this.phone.set("");
   }
 }

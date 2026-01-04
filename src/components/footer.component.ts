@@ -18,6 +18,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
             <p class="text-sm text-gray-400">
               Building the future of digital forms with modern web technologies. Simple, fast, and accessible.
             </p>
+            <p class="text-sm text-gray-400 pt-4">Support Email: <a class="font-bold text-white" href="mailto:support@taisupport.com<">support@taisupport.com</a></p>
+            <p class="text-sm text-gray-400">Support Phone: <a class="font-bold text-white" href="tel:+1 (555) 123-4567">+1 (555) 123-4567</a></p>
           </div>
 
           <!-- Links -->
